@@ -1,2 +1,2 @@
-# mars-
+# mars++
 cpp hydro code
