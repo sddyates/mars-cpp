@@ -127,7 +127,8 @@ double**** RHSOperator(double ****U, const Grid& g, const Algorithm& a) {
         for (j = g.jbeg; j < g.jend; j++) {
 
             for (var = 0; var < g.nvar; var++) {
-                for (i = g.ibeg; i < g.iend; i++) {
+                // Need to send the hole column of the normal direction.
+                for (i = 0; i < g.nx1_tot; i++) {
                     c1.U[var][i] = U[var][k][j][i];
                 }
             }
@@ -153,7 +154,7 @@ double**** RHSOperator(double ****U, const Grid& g, const Algorithm& a) {
         for (i = g.ibeg; i < g.iend; i++) {
 
             for (var = 0; var < g.nvar; var++) {
-                for (j = g.jbeg; j < g.jend; j++) {
+                for (j = 0; j < g.nx2_tot; j++) {
                     c2.U[var][j] = U[var][k][j][i];
                 }
             }
@@ -178,7 +179,7 @@ double**** RHSOperator(double ****U, const Grid& g, const Algorithm& a) {
         for (i = g.ibeg; i < g.iend; i++) {
 
             for (var = 0; var < g.nvar; var++) {
-                for (k = g.kbeg; k < g.kend; k++) {
+                for (k = 0; k < g.nx3_tot; k++) {
                     c3.U[var][k] = U[var][k][j][i];
                 }
             }

@@ -114,23 +114,24 @@ inline void time_step(double ****V, Grid &g, const Algorithm &a,
 inline void dump (double ****V, Grid grid, Parameters parameter, int num) {
 
     hid_t file, dataset, dataspace;
-    hsize_t dimsf[3];
+    hsize_t dimsf[4];
     herr_t status;
 
     file = H5Fcreate("example.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
-    dimsf[0] = parameter.x1_resolution + 2*grid.gz;
-    dimsf[1] = parameter.x2_resolution + 2*grid.gz;
-    dimsf[2] = parameter.x3_resolution + 2*grid.gz;
+    dimsf[0] = grid.nx1_tot;
+    dimsf[1] = grid.nx2_tot;
+    dimsf[2] = grid.nx3_tot;
+    dimsf[3] = grid.nvar;
 
     //Dataspace creation
     dataspace = H5Screate_simple(2, dimsf, NULL);
 
     //Dataset creation
-    dataset = H5Dcreate(file, "conservative_data", H5T_NATIVE_INT, dataspace,
+    dataset = H5Dcreate(file, "conservative_data", H5T_NATIVE_DOUBLE, dataspace,
                         H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 
     //Actual data IO
-    status = H5Dwrite(dataset, H5T_NATIVE_INT, H5S_ALL,
+    status = H5Dwrite(dataset, H5T_NATIVE_DOUBLE, H5S_ALL,
                       H5S_ALL, H5P_DEFAULT, V);
 
     //Closing all opened HDF5 objects
